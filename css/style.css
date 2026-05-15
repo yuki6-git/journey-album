@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 20px;
+}
+
+.nav__list {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.hero {
+  height: 80vh;
+  background-image: url("../images/herobg.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+}
+.hero__content a {
+  background-color: #a9a9a9;
+  border-radius: 8px;
+  padding: 12px 20px;
+  transition: 0.2s;
+}
+.hero__content a:active {
+  transform: translateY(2px);
+}
+
+.footer {
+  text-align: center;
+  border-top: #333 solid 1px;
+}
+
+.footer_sns {
+  display: flex;
+  justify-content: center;
+  color: #333;
+}
+
+.trip-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  padding: 0 10px;
+}
+
+.trip-card {
+  display: flex;
+  gap: 8px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.trip-card img {
+  flex: 1;
+  width: 0;
+  height: 240px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 12px;
+}
+.trip-card .trip-card__content {
+  flex: 2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}/*# sourceMappingURL=style.css.map */

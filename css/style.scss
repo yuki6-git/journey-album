@@ -18,10 +18,7 @@ ul {
 	margin: 0;
 }
 
-img {
-	max-width: 100%;
-}
-
+// index.html //
 .header__inner {
 		display: flex;
 		justify-content: space-between;
@@ -74,4 +71,33 @@ img {
 	color: #333;
 }
 
+
+// trips.html //
+
+.trip-cards {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 24px;
+	padding: 0 10px;
+}
  
+.trip-card {
+	display: flex;
+	gap: 8px;
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0,0,0,.1);
+	img {
+    	flex: 1;
+		width: 0;
+		height: 240px;
+    	object-fit: cover;
+    	border-radius: 12px;
+	}
+	.trip-card__content {
+		flex: 2;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+}
