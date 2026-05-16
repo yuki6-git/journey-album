@@ -1,0 +1,114 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;700&display=swap"
+      rel="stylesheet">
+    <title>Journey Album</title>
+  </head>
+  <body>
+    <main class="detail">
+      <div class="detail-tabs">
+
+        <button class="detail-tab is-active">
+        基本情報
+        </button>
+        <button class="detail-tab">
+        日程
+        </button>
+        <button class="detail-tab">
+        写真
+        </button>
+        <button class="detail-tab">
+        場所
+        </button>
+      </div>
+
+      <section class="detail-panel">
+        <section class="detail-info">    
+          <div class="detail-info__header">
+            <h1>四国旅行</h1>
+            <img class="detail-hero__image" src="./images/shikoku/shikoku8.jpeg" alt="四国旅行">
+          </div>
+          <div class="detail-info__content">
+            <time datetime="2026-05-04">2026.05.04 - 2026.05.06</time>
+            <p>旅行先：四国</p>
+            <p>メモ：四国一周ドライブ旅！</p>
+          </div>
+        </section>
+        <section class="schedule">
+          <h2 class="schedule__title">旅行日程</h2>
+          <div class="schedule__day">
+            <ul class="schedule__list">
+              <li class="schedule__item">
+                <time datetime="12:00">10:00</time>
+                <div class="schedule__item-content">
+                  <h4 class="schedule__item-title">羽田空港集合</h4>
+                  <p class="schedule__item-memo">飛行機で高松空港へ</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="photos">
+          <h2 class="photos__title">旅行写真</h2>
+          <div class="photos__gallery">
+            <img class="photos__image" src="./images/shikoku/shikoku1.jpeg" loading="lazy" alt="写真1">
+            <img class="photos__image" src="./images/shikoku/shikoku2.jpeg" loading="lazy" alt="写真2">
+            <img class="photos__image" src="./images/shikoku/shikoku3.jpeg" loading="lazy" alt="写真3">
+            <img class="photos__image" src="./images/shikoku/shikoku4.jpeg" loading="lazy" alt="写真4">
+            <img class="photos__image" src="./images/shikoku/shikoku5.jpeg" loading="lazy" alt="写真5">
+            <img class="photos__image" src="./images/shikoku/shikoku6.jpeg" loading="lazy" alt="写真6">
+            <img class="photos__image" src="./images/shikoku/shikoku7.jpeg" loading="lazy" alt="写真7">              <img class="photos__image" src="./images/shikoku/shikoku8.jpeg" loading="lazy" alt="写真8">
+          </div>
+        </section>
+        <section class="locations">
+          <h2 class="places__title">行った場所</h2>
+          <!-- 追加フォーム -->
+          <form class="place-form">
+            <input class="place-form__input" type="text" placeholder="場所名">
+            <select class="place-form__select">
+              <option value="観光地"> 観光地 </option>
+              <option value="グルメ"> グルメ </option>
+              <option value="宿泊先"> 宿泊先 </option>
+              <option value="映えスポット"> 映えスポット </option>
+              <option value="アクティビティ">  アクティビティ </option>
+              <option value="ショッピング">  ショッピング </option>
+              <option value="休憩スポット">休憩スポット</option>
+            </select>
+            <button class="place-form__button">追加</button>
+          </form>
+
+          <!-- 表示エリア -->
+          <div class="places-groups">
+            <div class="place-group">
+              <h3 class="place-group__title">観光地</h3>
+              <ul class="place-group__list">
+                <li class="place-group__item">清水寺</li>
+                <li class="place-group__item"> 伏見稲荷大社</li>
+              </ul>
+            </div>
+            <div class="place-group">
+              <h3 class="place-group__title"> グルメ</h3>
+              <ul class="place-group__list">
+                <li class="place-group__item">抹茶カフェ</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>  

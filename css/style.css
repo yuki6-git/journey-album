@@ -72,6 +72,7 @@ ul {
 .trip-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 24px;
   padding: 0 10px;
 }
@@ -85,7 +86,7 @@ ul {
 .trip-card img {
   flex: 1;
   width: 0;
-  height: 240px;
+  aspect-ratio: 4/3;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 12px;
@@ -96,4 +97,15 @@ ul {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  align-items: flex-start;
+}
+.trip-card .trip-card__content a {
+  display: inline-block;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: #1E90FF;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  color: #fff;
+  margin-left: auto;
 }/*# sourceMappingURL=style.css.map */
