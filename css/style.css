@@ -7,6 +7,12 @@ body {
   color: #333;
 }
 
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -108,4 +114,116 @@ ul {
   padding: 8px 16px;
   color: #fff;
   margin-left: auto;
+}
+
+.detail-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: double 4px #333;
+  background-color: #fff;
+  margin: 10px 0;
+}
+
+.detail-header__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-bottom: 20px;
+}
+.detail-header__inner .logo {
+  position: absolute;
+  left: 10px;
+}
+.detail-header__inner .detail-header__title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  padding-right: 15px;
+}
+
+.detail-tabs {
+  margin: 10px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  height: 50vh;
+  position: sticky;
+  top: 200px;
+  margin: 0 auto;
+}
+
+.tab-group {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.detail-tab {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.detail-tab[aria-selected=true] {
+  border: none;
+  background-color: #6667ab;
+  color: #fff;
+  transition-property: color, background-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease;
+}
+
+.detail-panel {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
+  padding: 15px;
+}
+
+.panel__inner {
+  display: none;
+}
+.panel__inner[aria-hidden=false] {
+  display: block;
+  animation: show 0.4s ease;
+}
+.panel__inner .detail-info__content {
+  margin-top: 10px;
+}
+
+.photos__gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.photos__gallery img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .details {
+    display: block;
+  }
+  .detail-tabs {
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+  }
+  .detail-tab {
+    white-space: nowrap;
+  }
 }/*# sourceMappingURL=style.css.map */

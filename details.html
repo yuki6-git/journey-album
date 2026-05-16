@@ -19,25 +19,32 @@
     <title>Journey Album</title>
   </head>
   <body>
+    <header class="detail-header">
+      <div class="detail-header__inner">
+        <a class="logo" href="./index.html"><i class="fa-solid fa-plane-departure"></i>Journey Album</a>
+        <a class="detail-header__title" href="#">四国旅行</a>
+      </div>
+	  </header>
     <main class="detail">
       <div class="detail-tabs">
-
-        <button class="detail-tab is-active">
-        基本情報
-        </button>
-        <button class="detail-tab">
-        日程
-        </button>
-        <button class="detail-tab">
-        写真
-        </button>
-        <button class="detail-tab">
-        場所
-        </button>
+        <ul class="tab-group" role="tablist">
+          <li class="tab-group__item">
+            <button class="detail-tab" role="tab" aria-controls="panel01" aria-selected="true">基本情報</button>
+          </li>
+          <li class="tab-group__item">
+            <button class="detail-tab" role="tab" aria-controls="panel02" aria-selected="false">日程</button>
+          </li>
+          <li class="tab-group__item">
+            <button class="detail-tab" role="tab" aria-controls="panel03" aria-selected="false">写真</button>
+          </li>
+          <li class="tab-group__item">
+            <button class="detail-tab" role="tab" aria-controls="panel04" aria-selected="false">場所</button>
+          </li>  
+        </ul>  
       </div>
 
-      <section class="detail-panel">
-        <section class="detail-info">    
+      <div class="detail-panel">
+        <section class="detail-info panel__inner" id="panel01" role="tabpanel" aria-hidden="false">    
           <div class="detail-info__header">
             <h1>四国旅行</h1>
             <img class="detail-hero__image" src="./images/shikoku/shikoku8.jpeg" alt="四国旅行">
@@ -45,10 +52,11 @@
           <div class="detail-info__content">
             <time datetime="2026-05-04">2026.05.04 - 2026.05.06</time>
             <p>旅行先：四国</p>
-            <p>メモ：四国一周ドライブ旅！</p>
+            <p>一言メモ：四国一周ドライブ旅！</p>
           </div>
         </section>
-        <section class="schedule">
+       
+        <section class="schedule panel__inner" id="panel02" role="tabpanel" aria-hidden="true">
           <h2 class="schedule__title">旅行日程</h2>
           <div class="schedule__day">
             <ul class="schedule__list">
@@ -62,7 +70,8 @@
             </ul>
           </div>
         </section>
-        <section class="photos">
+        
+        <section class="photos panel__inner" id="panel03" role="tabpanel" aria-hidden="true">
           <h2 class="photos__title">旅行写真</h2>
           <div class="photos__gallery">
             <img class="photos__image" src="./images/shikoku/shikoku1.jpeg" loading="lazy" alt="写真1">
@@ -74,7 +83,8 @@
             <img class="photos__image" src="./images/shikoku/shikoku7.jpeg" loading="lazy" alt="写真7">              <img class="photos__image" src="./images/shikoku/shikoku8.jpeg" loading="lazy" alt="写真8">
           </div>
         </section>
-        <section class="locations">
+        
+        <section class="locations panel__inner" id="panel04" role="tabpanel" aria-hidden="true">
           <h2 class="places__title">行った場所</h2>
           <!-- 追加フォーム -->
           <form class="place-form">
@@ -108,7 +118,7 @@
             </div>
           </div>
         </section>
-      </section>
+      </div>
     </main>
   </body>
 </html>  
