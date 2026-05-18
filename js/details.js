@@ -62,12 +62,24 @@ function renderTripForm(trip = null) {
     document.querySelector(".info-title").textContent = "新しい旅行記録";
     document.querySelector(".detail-hero__image").style.display = "none";
 
+    //写真の入力欄の作成//
     const form = document.createElement("form");
     form.classList.add("new-trip-form");
         
+    const mainImageField = document.createElement("div");
+    mainImageField.classList.add("form-field");
+
+    const mainImageLabel = document.createElement("label");
+    mainImageLabel.htmlFor = "main-image";
+    mainImageLabel.textContent = "メイン写真";
+
     const mainImageInput = document.createElement("input");
     mainImageInput.type = "file";
     mainImageInput.accept = "image/*";
+    mainImageInput.id = "main-image";
+
+    mainImageField.append(mainImageLabel, mainImageInput);
+
     if (trip) {
         const preview = document.createElement("img");
         preview.src = trip.mainImage;
@@ -75,42 +87,104 @@ function renderTripForm(trip = null) {
         preview.classList.add("trip-preview-image");
         form.append(preview);
     }
+    //タイトル入力欄の作成//
+    const titleField = document.createElement("div");
+    titleField.classList.add("form-field");
+    
+    const titleLabel = document.createElement("label");
+    titleLabel.htmlFor = "trip-title";
+    titleLabel.textContent = "旅行タイトル";
     
     const titleInput = document.createElement("input");
+    titleInput.id = "trip-title";
     titleInput.type = "text";
     titleInput.name = "title";
     titleInput.placeholder = "旅行タイトル";
     titleInput.value = trip ? trip.title : "";
 
+    //出発日入力欄の作成//
+    const startDateField = document.createElement("div");
+    startDateField.classList.add("form-field");
+
+    const startDateLabel = document.createElement("label");
+    startDateLabel.htmlFor = "start-date";
+    startDateLabel.textContent = "出発日";
+
     const startDateInput =document.createElement("input");
+    startDateInput.id = "start-date";
     startDateInput.type = "date";
     startDateInput.value = trip ? trip.startDate : "";
+    
+    //帰宅日入力欄の作成//
+    const endDateField = document.createElement("div");
+    endDateField.classList.add("form-field");
+    
+    const endDateLabel = document.createElement("label");
+    endDateLabel.htmlFor = "end-date";
+    endDateLabel.textContent = "帰宅日";
 
     const endDateInput =document.createElement("input");
+    endDateInput.id = "end-date";
     endDateInput.type = "date";
     endDateInput.value = trip ? trip.endDate : "";
 
+    //旅行先の入力欄の作成//
+    const destinationField = document.createElement("div");
+    destinationField.classList.add("form-field");
+
+    const destinationLabel = document.createElement("label");
+    destinationLabel.htmlFor = "destination";
+    destinationLabel.textContent = "旅行先";
+
     const destinationInput =document.createElement("input");
+    destinationInput.id = "destination";
     destinationInput.type = "text";
     destinationInput.placeholder ="旅行先";
     destinationInput.value = trip ? trip.destination : "";
-        
+
+    //一言メモの入力欄の作成//
+    const memoField = document.createElement("div");
+    memoField.classList.add("form-field");
+    
+    const memoLabel = document.createElement("label");
+    memoLabel.htmlFor = "memo";
+    memoLabel.textContent = "一言メモ";
+
     const memoInput =
     document.createElement("textarea");
+    memoInput.id = "memo";
     memoInput.placeholder ="一言メモ";
     memoInput.value = trip ? trip.text : "";
 
     const submitButton =document.createElement("button");
     submitButton.type = "submit";
     submitButton.textContent ="保存する";
+
+    titleField.append(
+        titleLabel, titleInput
+    );
+    startDateField.append(
+        startDateLabel, startDateInput
+    );
+    endDateField.append(
+        endDateLabel, endDateInput
+    );
+    destinationField.append(
+        destinationLabel, destinationInput
+    );
+    memoField.append(
+        memoLabel, memoInput
+    );
+
+
         
     form.append(
-        mainImageInput,
-        titleInput,
-        startDateInput,
-        endDateInput,
-        destinationInput,
-        memoInput,
+        mainImageField,
+        titleField,
+        startDateField,
+        endDateField,
+        destinationField,
+        memoField,
         submitButton
     );
     detailInfoContent.append(form);
