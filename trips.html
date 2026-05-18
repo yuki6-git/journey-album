@@ -15,7 +15,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;700&display=swap"
-      rel="stylesheet">
+      rel="stylesheet">    
+    <script src="./js/data.js" defer></script>
+    <script src="./js/trips.js" defer></script>
+
     <title>Journey Album</title>
   </head>
   <body>
@@ -33,55 +36,9 @@
     </header>
     <section class="trips">
         <div class="trips__inner">
-            <a class="add-trip-button" href="#"><i class="fa-solid fa-plus"></i>新しい旅行記録</a>
+            <a class="add-trip-button" href="./details.html?mode=new"><i class="fa-solid fa-plus"></i>新しい旅行記録</a>
             <h1>あなたの旅の記録</h1>
-            <div class="trip-cards">
-                <div class="trip-card">
-                    <img src="../images/kyoto.jpg" alt="京都">
-                    <div class="trip-card__content">
-                        <h2>京都旅行</h2>
-                        <time datetime="2024-05-04">2024年5月4日 - 2024年5月6日</time>
-                        <p>京都の美しい寺院や庭園を訪れ、伝統的な文化に触れました。特に金閣寺と清水寺が印象的でした。</p>
-                        <a href="./details.html">詳細を見る</a>
-                    </div>
-                </div>
-                <div class="trip-card">
-                    <img src="../images/okinawa.jpg" alt="沖縄">
-                    <div class="trip-card__content">
-                        <h2>沖縄旅行</h2>
-                        <time datetime="2024-03-15">2024年3月15日 - 2024年3月20日</time>
-                        <p>沖縄の美しいビーチと豊かな自然を満喫しました。シュノーケリングでカラフルな魚たちと泳いだのが最高でした。</p>
-                        <a href="./details.html">詳細を見る</a>
-                    </div>
-                </div>
-                <div class="trip-card">
-                    <img src="../images/tokyo.jpg" alt="東京">
-                    <div class="trip-card__content">
-                        <h2>東京旅行</h2>
-                        <time datetime="2024-01-10">2024年1月10日 - 2024年1月15日</time>
-                        <p>東京の活気ある街並みと多様な文化を楽しみました。特に浅草寺と秋葉原が印象的でした。</p>
-                        <a href="./details.html">詳細を見る</a>
-                    </div>
-                </div>
-                <div class="trip-card">
-                    <img src="../images/hokkaido.jpg" alt="北海道">
-                    <div class="trip-card__content">
-                        <h2>北海道旅行</h2>
-                        <time datetime="2023-12-01">2023年12月1日 - 2023年12月5日</time>
-                        <p>北海道の美しい雪景色と温泉を楽しみました。特に札幌の雪まつりが印象的でした。</p>
-                        <a href="./details.html">詳細を見る</a>
-                    </div>
-                </div>
-                <div class="trip-card">
-                    <img src="../images/shikoku/shikoku1.jpeg" alt="四国">
-                    <div class="trip-card__content">
-                        <h2>四国旅行</h2>
-                        <time datetime="2026-05-04">2026年5月4日 - 2026年5月6日</time>
-                        <p>四国の美しい自然と美味しいご飯を楽しみました。特に高知の街並みが印象的でした。</p>
-                        <a href="./details.html">詳細を見る</a>
-                    </div>
-                </div>
-            </div>    
+            <div class="trip-cards"></div>    
         </div>
     </section>
   </body>

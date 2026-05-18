@@ -106,6 +106,13 @@ ul {
 		flex-direction: column;
 		min-width: 0;
 		align-items: flex-start;
+		
+		.trip-card__date {
+			display: flex;
+			gap: 8px;
+			align-items: center;
+		}
+		
 		a {
 			display: inline-block;
 			width: fit-content;
@@ -133,8 +140,8 @@ ul {
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-bottom: 20px;
-  .logo{
+  padding: 14px 0;
+  .back{
 	position: absolute;
 	left: 10px;
   }
@@ -148,10 +155,10 @@ ul {
 .detail {
   display: grid;
   grid-template-columns: 180px 1fr;
-  padding-right: 15px;
+  
 }
 .detail-tabs {
-  margin: 10px;
+  width: 100%;
   padding: 24px;
   background: #fff;
   border-radius: 24px;
@@ -159,7 +166,7 @@ ul {
   height: 50vh;
   position: sticky;
   top: 200px;
-  margin:0 auto;
+  left: 50px;
 }
 
 .tab-group {
@@ -188,6 +195,7 @@ ul {
 	box-shadow: 0 4px 16px rgba(0,0,0,.2);
 	border-radius: 24px;
 	padding: 15px;
+	margin: 0 100px;
 }
 
 .panel__inner {
@@ -196,10 +204,19 @@ ul {
     display: block;
     animation: show 0.4s ease;
   }
+  .detail-hero__image {
+	width: 100%;
+  	height: 60vh;
+  	object-fit: cover;
+	border-radius: 24px;
+  }
+
   .detail-info__content {
 	margin-top: 10px;
   }
 }
+
+// 写真ギャラリー //
 .photos__gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
