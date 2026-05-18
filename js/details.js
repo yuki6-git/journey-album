@@ -4,14 +4,6 @@ const tripId = Number(params.get("id"));
 console.log(tripId);
 const currentTrip = trips.find((trip) => {return trip.id === tripId});
 
-//detailページの内容の表示//
-const titles = document.querySelectorAll(".info-title");
-titles.forEach((title) => {
-    title.textContent = currentTrip.title;
-});
-document.querySelector(".detail-hero__image").src = currentTrip.image;
-document.querySelector(".detail-hero__image").alt = currentTrip.title;
-
 //基本情報の内容の表示//
 const detailInfoContent = document.querySelector(".detail-info__content");
 function renderDetail(currentTrip) {
@@ -41,7 +33,6 @@ function renderDetail(currentTrip) {
     memo
   );
 }
-renderDetail(currentTrip);
 
 //タブの切り替え//
 const tabs = document.querySelectorAll(".detail-tab");
@@ -96,7 +87,7 @@ if(mode === "new") {
         
         const memoInput =
         document.createElement("textarea");
-        memoInput.placeholder ="ひとことメモ";
+        memoInput.placeholder ="一言メモ";
 
         const submitButton =document.createElement("button");
         submitButton.type = "submit";
@@ -112,8 +103,62 @@ if(mode === "new") {
             submitButton
         );
         detailInfoContent.append(form);
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const errors = [];
+            if (!mainImageInput.files[0]) {
+                errors.push("写真を選択してください");
+            }
+            if (titleInput.value.trim() === "") {
+                errors.push("旅行タイトルを入力してください");
+            }
+            if (destinationInput.value.trim() === "") {
+                errors.push("旅行先を入力してください");    
+            }
+            if (startDateInput.value === "") {
+                errors.push("開始日を入力してください");
+            }
+            if (endDateInput.value === "") {
+                errors.push("終了日を入力してください");
+            }
+            if (endDateInput.value < startDateInput.value) {
+                errors.push("終了日は開始日より後の日付にしてください");
+            }
+            
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return;
+            }
+        
+            const reader = new FileReader();
+            reader.onload = () => {
+                const newTrip = {
+                    id: Date.now(),
+                    title: titleInput.value.trim(),
+                    destination: destinationInput.value.trim(),
+                    startDate: startDateInput.value,
+                    endDate: endDateInput.value,
+                    text: memoInput.value.trim(),
+                    mainImage: reader.result,
+                    photos: [],
+                };
+                trips.push(newTrip);
+                localStorage.setItem("trips", JSON.stringify(trips));
+                alert("旅行記録が保存されました");
+                window.location.href = `./trips.html`;
+            };
+            reader.readAsDataURL(mainImageInput.files[0]);
+        });
     }
     renderTripForm();
+} else {
+    //detailページの内容の表示//
+    const titles = document.querySelectorAll(".info-title");
+    titles.forEach((title) => {
+    title.textContent = currentTrip.title;
+    });
+    document.querySelector(".detail-hero__image").src = currentTrip.mainImage;
+    document.querySelector(".detail-hero__image").alt = currentTrip.title;
+    renderDetail(currentTrip);
 }
-
-   

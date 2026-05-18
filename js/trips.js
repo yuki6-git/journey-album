@@ -17,7 +17,7 @@ function renderTrips() {
         card.classList.add("trip-card");
         
         const img = document.createElement("img");
-        img.src = trip.image;
+        img.src = trip.mainImage;
         img.alt = trip.title;
 
         const content = document.createElement("div");
