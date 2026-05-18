@@ -56,83 +56,101 @@ tabs.forEach((tab) => {
 
 //新しい旅行記録の追加//
 const mode = params.get("mode");
-if(mode === "new") {
-    function renderTripForm() {
-        detailInfoContent.textContent = "";
+function renderTripForm(trip = null) {
+    detailInfoContent.textContent = "";
 
-        document.querySelector(".info-title").textContent = "新しい旅行記録";
-        document.querySelector(".detail-hero__image").style.display = "none";
+    document.querySelector(".info-title").textContent = "新しい旅行記録";
+    document.querySelector(".detail-hero__image").style.display = "none";
 
-        const form = document.createElement("form");
-        form.classList.add("new-trip-form");
+    const form = document.createElement("form");
+    form.classList.add("new-trip-form");
         
-        const mainImageInput = document.createElement("input");
-        mainImageInput.type = "file";
-        mainImageInput.accept = "image/*";
+    const mainImageInput = document.createElement("input");
+    mainImageInput.type = "file";
+    mainImageInput.accept = "image/*";
+    if (trip) {
+        const preview = document.createElement("img");
+        preview.src = trip.mainImage;
+        preview.alt = trip.title;
+        preview.classList.add("trip-preview-image");
+        form.append(preview);
+    }
+    
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.name = "title";
+    titleInput.placeholder = "旅行タイトル";
+    titleInput.value = trip ? trip.title : "";
+
+    const startDateInput =document.createElement("input");
+    startDateInput.type = "date";
+    startDateInput.value = trip ? trip.startDate : "";
+
+    const endDateInput =document.createElement("input");
+    endDateInput.type = "date";
+    endDateInput.value = trip ? trip.endDate : "";
+
+    const destinationInput =document.createElement("input");
+    destinationInput.type = "text";
+    destinationInput.placeholder ="旅行先";
+    destinationInput.value = trip ? trip.destination : "";
         
-        const titleInput = document.createElement("input");
-        titleInput.type = "text";
-        titleInput.name = "title";
-        titleInput.placeholder = "旅行タイトル";
+    const memoInput =
+    document.createElement("textarea");
+    memoInput.placeholder ="一言メモ";
+    memoInput.value = trip ? trip.text : "";
 
-        const startDateInput =document.createElement("input");
-        startDateInput.type = "date";
-
-        const endDateInput =document.createElement("input");
-        endDateInput.type = "date";
-
-        const destinationInput =document.createElement("input");
-        destinationInput.type = "text";
-        destinationInput.placeholder ="旅行先";
+    const submitButton =document.createElement("button");
+    submitButton.type = "submit";
+    submitButton.textContent ="保存する";
         
-        const memoInput =
-        document.createElement("textarea");
-        memoInput.placeholder ="一言メモ";
+    form.append(
+        mainImageInput,
+        titleInput,
+        startDateInput,
+        endDateInput,
+        destinationInput,
+        memoInput,
+        submitButton
+    );
+    detailInfoContent.append(form);
 
-        const submitButton =document.createElement("button");
-        submitButton.type = "submit";
-        submitButton.textContent ="保存する";
-        
-        form.append(
-            mainImageInput,
-            titleInput,
-            startDateInput,
-            endDateInput,
-            destinationInput,
-            memoInput,
-            submitButton
-        );
-        detailInfoContent.append(form);
-
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const errors = [];
-            if (!mainImageInput.files[0]) {
-                errors.push("写真を選択してください");
-            }
-            if (titleInput.value.trim() === "") {
-                errors.push("旅行タイトルを入力してください");
-            }
-            if (destinationInput.value.trim() === "") {
-                errors.push("旅行先を入力してください");    
-            }
-            if (startDateInput.value === "") {
-                errors.push("開始日を入力してください");
-            }
-            if (endDateInput.value === "") {
-                errors.push("終了日を入力してください");
-            }
-            if (endDateInput.value < startDateInput.value) {
-                errors.push("終了日は開始日より後の日付にしてください");
-            }
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const errors = [];
+        if (!trip && !mainImageInput.files[0]) {
+            errors.push("写真を選択してください");
+        }
+        if (titleInput.value.trim() === "") {
+            errors.push("旅行タイトルを入力してください");
+        }
+        if (destinationInput.value.trim() === "") {
+            errors.push("旅行先を入力してください");    
+        }
+        if (startDateInput.value === "") {
+            errors.push("開始日を入力してください");
+        }
+        if (endDateInput.value === "") {
+            errors.push("終了日を入力してください");
+        }
+        if (endDateInput.value < startDateInput.value) {
+            errors.push("終了日は開始日より後の日付にしてください");
+        }
             
-            if (errors.length > 0) {
+        if (errors.length > 0) {
                 alert(errors.join("\n"));
                 return;
-            }
+        }
         
-            const reader = new FileReader();
-            reader.onload = () => {
+        const saveTrip = (mainImage) => {
+            if (trip) {
+                trip.title = titleInput.value.trim();
+                trip.destination = destinationInput.value.trim();
+                trip.startDate = startDateInput.value;
+                trip.endDate = endDateInput.value;
+                trip.text = memoInput.value.trim();
+                trip.mainImage = mainImage;
+            } else {
                 const newTrip = {
                     id: Date.now(),
                     title: titleInput.value.trim(),
@@ -140,20 +158,33 @@ if(mode === "new") {
                     startDate: startDateInput.value,
                     endDate: endDateInput.value,
                     text: memoInput.value.trim(),
-                    mainImage: reader.result,
+                    mainImage: mainImage,
                     photos: [],
                 };
                 trips.push(newTrip);
-                localStorage.setItem("trips", JSON.stringify(trips));
-                alert("旅行記録が保存されました");
-                window.location.href = `./trips.html`;
+            }
+            localStorage.setItem("trips", JSON.stringify(trips));
+            alert("旅行記録が保存されました");
+            window.location.href = "./trips.html";
+        };
+
+        if (mainImageInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                saveTrip(reader.result);
             };
             reader.readAsDataURL(mainImageInput.files[0]);
-        });
-    }
+        } else {
+            saveTrip(trip.mainImage);
+        }
+    });
+}    
+
+if (mode === "new") {
     renderTripForm();
+} else if (mode === "edit") {
+    renderTripForm(currentTrip) 
 } else {
-    //detailページの内容の表示//
     const titles = document.querySelectorAll(".info-title");
     titles.forEach((title) => {
     title.textContent = currentTrip.title;

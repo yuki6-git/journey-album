@@ -1,4 +1,4 @@
 const savedTrips =  localStorage.getItem("trips");
-const trips = savedTrips
+let trips = savedTrips
     ? JSON.parse(savedTrips)
     : [];

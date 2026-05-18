@@ -26,6 +26,19 @@ function renderTrips() {
         const title = document.createElement("h2");
         title.textContent = trip.title;
         
+        const actions = document.createElement("div");
+        actions.classList.add("trip-card__actions");
+
+        const editButton = document.createElement("button");
+        editButton.classList.add("actions");
+        editButton.type = "button";
+        editButton.textContent = "編集";
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("actions");
+        deleteButton.type = "button";
+        deleteButton.textContent = "削除";
+
         const date = document.createElement("p");
         date.classList.add("detail-info__date");
 
@@ -42,13 +55,31 @@ function renderTrips() {
         text.textContent = trip.text;
 
         const link = document.createElement("a");
+        link.classList.add("show-detail");
         link.href = `./details.html?id=${trip.id}`;
         link.textContent = "詳細を見る";
 
-        content.append(title, date, text, link);
+        actions.append(editButton, deleteButton);
+        content.append(title, date, text, link, actions);
         card.append(img, content);
         tripCard.append(card);
+
+        //削除機能の実装//
+        deleteButton.addEventListener("click", () => {
+            if (confirm("この旅行記録を削除しますか？")) {
+                trips = trips.filter((item) => {
+                    return item.id !== trip.id 
+                });
+                localStorage.setItem("trips", JSON.stringify(trips));
+                renderTrips();
+            }
+        });   
+        //編集機能の実装//
+        editButton.addEventListener("click", () => {
+            window.location.href = `./details.html?id=${trip.id}&mode=edit`;
+        });
     });
 }
 renderTrips();
+
 

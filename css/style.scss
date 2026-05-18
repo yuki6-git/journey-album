@@ -107,13 +107,19 @@ ul {
 		min-width: 0;
 		align-items: flex-start;
 		
+		.trip-card__actions{
+			gap:8px;
+			display: flex;
+
+		}
+		
 		.trip-card__date {
 			display: flex;
 			gap: 8px;
 			align-items: center;
 		}
 		
-		a {
+		.show-detail {
 			display: inline-block;
 			width: fit-content;
 			background-color: #1E90FF;
