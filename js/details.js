@@ -2,7 +2,14 @@
 const params = new URLSearchParams(window.location.search);
 const tripId = Number(params.get("id"));
 console.log(tripId);
-const currentTrip = trips.find((trip) => {return trip.id === tripId});
+const mode = params.get("mode");
+let currentTrip = null;
+
+if (mode !== "new") {
+  currentTrip = trips.find((trip) => {
+    return trip.id === tripId;
+  });
+}
 
 //基本情報の内容の表示//
 const detailInfoContent = document.querySelector(".detail-info__content");
@@ -55,13 +62,13 @@ tabs.forEach((tab) => {
 });    
 
 //新しい旅行記録の追加//
-const mode = params.get("mode");
+
 function renderTripForm(trip = null) {
     detailInfoContent.textContent = "";
 
     document.querySelector(".info-title").textContent = "新しい旅行記録";
     document.querySelector(".detail-hero__image").style.display = "none";
-
+    //基本情報のタブ//
     //写真の入力欄の作成//
     const form = document.createElement("form");
     form.classList.add("new-trip-form");
@@ -176,8 +183,6 @@ function renderTripForm(trip = null) {
         memoLabel, memoInput
     );
 
-
-        
     form.append(
         mainImageField,
         titleField,
@@ -234,6 +239,7 @@ function renderTripForm(trip = null) {
                     text: memoInput.value.trim(),
                     mainImage: mainImage,
                     photos: [],
+                    schedules: []
                 };
                 trips.push(newTrip);
             }
@@ -267,3 +273,147 @@ if (mode === "new") {
     document.querySelector(".detail-hero__image").alt = currentTrip.title;
     renderDetail(currentTrip);
 }
+
+//写真の追加//
+const photoInput = document.querySelector( ".photos__input");
+const addPhotoButton = document.querySelector(".photos__add-button");
+const photoGallery = document.querySelector(".photos__gallery");
+
+addPhotoButton.addEventListener(
+  "click", () => {
+    photoInput.click();
+});
+
+function renderPhotos(trip) {
+  photoGallery.textContent = "";
+
+  trip.photos.forEach((photo) => {
+    const img = document.createElement("img");
+    img.classList.add("photos__image");
+    img.src = photo;
+    img.alt = `${trip.title}の写真`;
+
+    photoGallery.append(img);
+  });
+}
+//写真の表示//
+photoInput.addEventListener("change", () => {
+    const files = Array.from(photoInput.files);
+    files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            currentTrip.photos.push(reader.result);
+            localStorage.setItem(
+                "trips",
+                JSON.stringify(trips)
+            );
+            renderPhotos(currentTrip);
+        };
+        reader.readAsDataURL(file);
+    });
+    renderPhotos(currentTrip);
+});
+
+
+//日程タブの表示//
+const scheduleContainer = document.querySelector(".schedule__content");
+function renderSchedule(trip) {
+    scheduleContainer.textContent = "";
+    const groupedSchedules = {};
+    
+    trip.schedules.forEach((schedule) => {
+        if (!groupedSchedules[schedule.day]) {
+            groupedSchedules[schedule.day] = [];
+        }
+        groupedSchedules[schedule.day].push(schedule);
+    });
+
+    Object.entries(groupedSchedules).forEach(([day, schedules]) => {
+        const scheduleDay = document.createElement("div");
+        scheduleDay.classList.add("schedule__day");
+
+        const dayTitle = document.createElement("h3");
+        dayTitle.classList.add("schedule__day-title");
+        dayTitle.textContent = `${day}日目`;
+
+        const scheduleList = document.createElement("ul");
+        scheduleList.classList.add("schedule__list");
+        
+        schedules.sort((a, b) => {
+            return a.time.localeCompare(b.time);
+        });
+        schedules.forEach((schedule) => {
+            const listItem = document.createElement("li");
+            listItem.classList.add("schedule__item");
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.textContent = "削除"
+            deleteButton.addEventListener("click", () => {
+                if (!confirm("この予定を削除しますか？")) {
+                    return;
+                }
+                currentTrip.schedules = currentTrip.schedules.filter((item) => {
+                    return item.id !== schedule.id;
+                });
+                localStorage.setItem(
+                    "trips",
+                    JSON.stringify(trips)
+                );
+                renderSchedule(currentTrip);
+            });
+
+            const time = document.createElement("time");
+            time.textContent = schedule.time;
+
+            const memo = document.createElement("p");
+            memo.textContent = schedule.memo;
+
+            listItem.append(time, memo, deleteButton);
+            scheduleList.append(listItem);
+        });
+        scheduleDay.append(dayTitle, scheduleList);
+        scheduleContainer.append(scheduleDay);
+    });    
+}
+renderSchedule(currentTrip);
+
+//新規日程の作成//
+const dayInput = document.querySelector(".schedule-day-input");
+const timeInput = document.querySelector(".schedule-time-input");
+const memoInput = document.querySelector(".schedule-memo-input");
+const addScheduleButton = document.querySelector(".schedule-add-button");
+
+//新規日程の作成//
+addScheduleButton.addEventListener("click",() => {
+    if (dayInput.value === "" ||
+        timeInput.value === "" ||
+        memoInput.value.trim() === ""
+    ){
+      alert(
+        "必須項目を入力してください"
+      );
+      return;
+    }
+    
+    const newSchedule = {
+        id: Date.now(),
+        day: dayInput.value,
+        time: timeInput.value,
+        memo: memoInput.value.trim(),
+    };
+
+    currentTrip.schedules.push(newSchedule);
+
+    localStorage.setItem(
+    "trips",
+    JSON.stringify(trips)
+    );
+
+    renderSchedule(currentTrip);
+
+    // フォームリセット
+    dayInput.value = "";
+    timeInput.value = "";
+    memoInput.value = "";
+});

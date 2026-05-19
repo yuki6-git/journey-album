@@ -64,7 +64,7 @@ function renderTrips() {
         card.append(img, content);
         tripCard.append(card);
 
-        //削除機能の実装//
+        //削除機能//
         deleteButton.addEventListener("click", () => {
             if (confirm("この旅行記録を削除しますか？")) {
                 trips = trips.filter((item) => {
@@ -74,7 +74,7 @@ function renderTrips() {
                 renderTrips();
             }
         });   
-        //編集機能の実装//
+        //編集機能//
         editButton.addEventListener("click", () => {
             window.location.href = `./details.html?id=${trip.id}&mode=edit`;
         });

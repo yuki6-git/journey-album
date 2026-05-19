@@ -56,30 +56,30 @@
        
         <section class="schedule panel__inner" id="panel02" role="tabpanel" aria-hidden="true">
           <h2 class="schedule__title">旅行日程</h2>
-          <div class="schedule__day">
-            <ul class="schedule__list">
-              <li class="schedule__item">
-                <time datetime="12:00">10:00</time>
-                <div class="schedule__item-content">
-                  <h4 class="schedule__item-title">羽田空港集合</h4>
-                  <p class="schedule__item-memo">飛行機で高松空港へ</p>
-                </div>
-              </li>
-            </ul>
+           
+          <div class="schedule__form">
+            <input class="schedule-day-input" type="number" min="1" placeholder="⚪︎日目">
+
+            <input class="schedule-time-input" type="time">
+
+            <textarea class="schedule-memo-input" type="text" placeholder="メモ"></textarea>
+
+            <button class="schedule-add-button" type="button">
+              日程を追加
+            </button>
+            <div class="schedule__content"></div>
           </div>
         </section>
         
         <section class="photos panel__inner" id="panel03" role="tabpanel" aria-hidden="true">
           <h2 class="photos__title">旅行写真</h2>
-          <div class="photos__gallery">
-            <img class="photos__image" src="./images/shikoku/shikoku1.jpeg" loading="lazy" alt="写真1">
-            <img class="photos__image" src="./images/shikoku/shikoku2.jpeg" loading="lazy" alt="写真2">
-            <img class="photos__image" src="./images/shikoku/shikoku3.jpeg" loading="lazy" alt="写真3">
-            <img class="photos__image" src="./images/shikoku/shikoku4.jpeg" loading="lazy" alt="写真4">
-            <img class="photos__image" src="./images/shikoku/shikoku5.jpeg" loading="lazy" alt="写真5">
-            <img class="photos__image" src="./images/shikoku/shikoku6.jpeg" loading="lazy" alt="写真6">
-            <img class="photos__image" src="./images/shikoku/shikoku7.jpeg" loading="lazy" alt="写真7">              <img class="photos__image" src="./images/shikoku/shikoku8.jpeg" loading="lazy" alt="写真8">
+          <div class="photos__actions">
+            <input class="photos__input" type="file" accept="image/*" multiple hidden>
+            <button class="photos__add-button" type="button">
+              写真を追加
+            </button>
           </div>
+          <div class="photos__gallery"></div>
         </section>
         
         <section class="locations panel__inner" id="panel04" role="tabpanel" aria-hidden="true">
