@@ -28,6 +28,7 @@
       </div>
 	  </header>
     <main class="detail">
+      <!-- タブ -->
       <div class="detail-tabs">
         <ul class="tab-group" role="tablist">
           <li class="tab-group__item">
@@ -44,8 +45,10 @@
           </li>  
         </ul>  
       </div>
-
+      
       <div class="detail-panel">
+        
+        <!-- 基本情報 -->
         <section class="detail-info panel__inner" id="panel01" role="tabpanel" aria-hidden="false">    
           <div class="detail-info__header">
             <img class="detail-hero__image" src="" alt="">
@@ -54,16 +57,14 @@
           <div class="detail-info__content"></div>
         </section>
        
+        <!-- 日程 -->
         <section class="schedule panel__inner" id="panel02" role="tabpanel" aria-hidden="true">
           <h2 class="schedule__title">旅行日程</h2>
            
           <div class="schedule__form">
             <input class="schedule-day-input" type="number" min="1" placeholder="⚪︎日目">
-
             <input class="schedule-time-input" type="time">
-
             <textarea class="schedule-memo-input" type="text" placeholder="メモ"></textarea>
-
             <button class="schedule-add-button" type="button">
               日程を追加
             </button>
@@ -71,6 +72,7 @@
           </div>
         </section>
         
+        <!--　写真 -->
         <section class="photos panel__inner" id="panel03" role="tabpanel" aria-hidden="true">
           <h2 class="photos__title">旅行写真</h2>
           <div class="photos__actions">
@@ -82,12 +84,14 @@
           <div class="photos__gallery"></div>
         </section>
         
-        <section class="locations panel__inner" id="panel04" role="tabpanel" aria-hidden="true">
+        <!-- 場所 -->
+        <section class="places panel__inner" id="panel04" role="tabpanel" aria-hidden="true">
           <h2 class="places__title">行った場所</h2>
           <!-- 追加フォーム -->
           <form class="place-form">
-            <input class="place-form__input" type="text" placeholder="場所名">
-            <select class="place-form__select">
+            <input class="place-name-input" type="text" placeholder="場所名">
+            <textarea class="place-memo-input" type="text" placeholder="メモ"></textarea>
+            <select class="place-category-input">
               <option value="観光地"> 観光地 </option>
               <option value="グルメ"> グルメ </option>
               <option value="宿泊先"> 宿泊先 </option>
@@ -96,25 +100,11 @@
               <option value="ショッピング">  ショッピング </option>
               <option value="休憩スポット">休憩スポット</option>
             </select>
-            <button class="place-form__button">追加</button>
+            <button type="button" class="place-add-button">追加</button>
           </form>
 
           <!-- 表示エリア -->
-          <div class="places-groups">
-            <div class="place-group">
-              <h3 class="place-group__title">観光地</h3>
-              <ul class="place-group__list">
-                <li class="place-group__item">清水寺</li>
-                <li class="place-group__item"> 伏見稲荷大社</li>
-              </ul>
-            </div>
-            <div class="place-group">
-              <h3 class="place-group__title"> グルメ</h3>
-              <ul class="place-group__list">
-                <li class="place-group__item">抹茶カフェ</li>
-              </ul>
-            </div>
-          </div>
+          <div class="place-content"></div>
         </section>
       </div>
     </main>

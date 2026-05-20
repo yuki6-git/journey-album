@@ -1,15 +1,30 @@
-//詳細を見るを押された時のIDに対応したdetailページの表示//
 const params = new URLSearchParams(window.location.search);
 const tripId = Number(params.get("id"));
 console.log(tripId);
 const mode = params.get("mode");
-let currentTrip = null;
+const currentTrip = trips.find((trip) => {
+      return trip.id === tripId;
+    });  
 
-if (mode !== "new") {
-  currentTrip = trips.find((trip) => {
-    return trip.id === tripId;
-  });
-}
+//タブの切り替え//
+const tabs = document.querySelectorAll(".detail-tab");
+tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+        tabs.forEach((tab) => {
+            tab.setAttribute("aria-selected", "false");
+        });
+        const panels = document.querySelectorAll(".panel__inner");
+        panels.forEach((panel) => {
+            panel.setAttribute("aria-hidden", "true");
+        });
+        
+        
+        tab.setAttribute("aria-selected", "true");
+        const panelId = tab.getAttribute("aria-controls");
+        const targetPanel = document.getElementById(panelId);
+        targetPanel.setAttribute("aria-hidden", "false");
+    });
+});   
 
 //基本情報の内容の表示//
 const detailInfoContent = document.querySelector(".detail-info__content");
@@ -41,28 +56,7 @@ function renderDetail(currentTrip) {
   );
 }
 
-//タブの切り替え//
-const tabs = document.querySelectorAll(".detail-tab");
-tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-        tabs.forEach((tab) => {
-            tab.setAttribute("aria-selected", "false");
-        });
-        const panels = document.querySelectorAll(".panel__inner");
-        panels.forEach((panel) => {
-            panel.setAttribute("aria-hidden", "true");
-        });
-        
-        
-        tab.setAttribute("aria-selected", "true");
-        const panelId = tab.getAttribute("aria-controls");
-        const targetPanel = document.getElementById(panelId);
-        targetPanel.setAttribute("aria-hidden", "false");
-    });
-});    
-
 //新しい旅行記録の追加//
-
 function renderTripForm(trip = null) {
     detailInfoContent.textContent = "";
 
@@ -239,7 +233,8 @@ function renderTripForm(trip = null) {
                     text: memoInput.value.trim(),
                     mainImage: mainImage,
                     photos: [],
-                    schedules: []
+                    schedules: [],
+                    places: []
                 };
                 trips.push(newTrip);
             }
@@ -259,20 +254,6 @@ function renderTripForm(trip = null) {
         }
     });
 }    
-
-if (mode === "new") {
-    renderTripForm();
-} else if (mode === "edit") {
-    renderTripForm(currentTrip) 
-} else {
-    const titles = document.querySelectorAll(".info-title");
-    titles.forEach((title) => {
-    title.textContent = currentTrip.title;
-    });
-    document.querySelector(".detail-hero__image").src = currentTrip.mainImage;
-    document.querySelector(".detail-hero__image").alt = currentTrip.title;
-    renderDetail(currentTrip);
-}
 
 //写真の追加//
 const photoInput = document.querySelector( ".photos__input");
@@ -334,7 +315,7 @@ function renderSchedule(trip) {
 
         const dayTitle = document.createElement("h3");
         dayTitle.classList.add("schedule__day-title");
-        dayTitle.textContent = `${day}日目`;
+        dayTitle.textContent = `${day}日目`; 
 
         const scheduleList = document.createElement("ul");
         scheduleList.classList.add("schedule__list");
@@ -343,8 +324,8 @@ function renderSchedule(trip) {
             return a.time.localeCompare(b.time);
         });
         schedules.forEach((schedule) => {
-            const listItem = document.createElement("li");
-            listItem.classList.add("schedule__item");
+            const scheduleListItem = document.createElement("li");
+            scheduleListItem.classList.add("schedule__list-item");
 
             const deleteButton = document.createElement("button");
             deleteButton.type = "button";
@@ -369,14 +350,14 @@ function renderSchedule(trip) {
             const memo = document.createElement("p");
             memo.textContent = schedule.memo;
 
-            listItem.append(time, memo, deleteButton);
-            scheduleList.append(listItem);
+            scheduleListItem.append(time, memo, deleteButton);
+            scheduleList.append(scheduleListItem);
         });
         scheduleDay.append(dayTitle, scheduleList);
         scheduleContainer.append(scheduleDay);
     });    
 }
-renderSchedule(currentTrip);
+
 
 //新規日程の作成//
 const dayInput = document.querySelector(".schedule-day-input");
@@ -384,7 +365,6 @@ const timeInput = document.querySelector(".schedule-time-input");
 const memoInput = document.querySelector(".schedule-memo-input");
 const addScheduleButton = document.querySelector(".schedule-add-button");
 
-//新規日程の作成//
 addScheduleButton.addEventListener("click",() => {
     if (dayInput.value === "" ||
         timeInput.value === "" ||
@@ -412,8 +392,124 @@ addScheduleButton.addEventListener("click",() => {
 
     renderSchedule(currentTrip);
 
-    // フォームリセット
     dayInput.value = "";
     timeInput.value = "";
     memoInput.value = "";
 });
+
+//場所タブの表示//
+const placeContainer = document.querySelector(".place-content");
+function renderPlace(trip) {
+    placeContainer.textContent = "";
+    const groupedPlaces ={};
+
+    trip.places.forEach((place) => {
+        if(!groupedPlaces[place.category]) {
+            groupedPlaces[place.category] = [];
+        }
+        groupedPlaces[place.category].push(place);
+    });
+    
+    Object.entries(groupedPlaces).forEach(([category, places]) => {
+        const placeGroup = document.createElement("div");
+        placeGroup.classList.add("place__group");
+
+        const groupTitle = document.createElement("h3");
+        groupTitle.classList.add("place__group-title");
+        groupTitle.textContent = `${category}`;
+
+        const placeList = document.createElement("ul");
+        placeList.classList.add("place__list");
+
+
+        places.forEach((place) => {
+            const placeListItem = document.createElement("li");
+            placeListItem.classList.add("place__list-item");
+    
+            
+            const placeName = document.createElement("h4");
+            placeName.textContent = place.name;
+
+            const placeMemo = document.createElement("p");
+            placeMemo.textContent = place.memo;
+
+            const deleteButton = document.createElement("button")
+            deleteButton.type = "button";
+            deleteButton.textContent = "削除"
+            deleteButton.addEventListener("click", () => {
+                if (!confirm("この場所を削除しますか？")) {
+                    return;
+                }
+                currentTrip.places = currentTrip.places.filter((item) => {
+                    return item.id !== place.id;
+                });
+                localStorage.setItem(
+                    "trips",
+                    JSON.stringify(trips)
+                );
+                renderPlace(currentTrip);
+            });
+
+            placeListItem.append(placeName, placeMemo, deleteButton);
+            placeList.append(placeListItem);
+        });
+        placeGroup.append(groupTitle, placeList);
+        placeContainer.append(placeGroup);
+    });
+}
+
+
+//場所の新規登録//
+const categoryInput = document.querySelector(".place-category-input");
+const placeNameInput = document.querySelector(".place-name-input");
+const placeMemoInput = document.querySelector(".place-memo-input");
+const addPlaceButton = document.querySelector(".place-add-button");
+
+addPlaceButton.addEventListener("click", () => {
+    if (categoryInput.value === "" ||
+        placeNameInput.value === "" 
+    ){
+      alert(
+        "必須項目を入力してください"
+      );
+      return;
+    }
+
+    const newPlace = {
+        id: Date.now(),
+        category: categoryInput.value.trim(),
+        name: placeNameInput.value.trim(),
+        memo: placeMemoInput.value.trim()
+    }
+    currentTrip.places.push(newPlace);
+    
+    localStorage.setItem(
+      "trips",
+      JSON.stringify(trips)
+    );
+
+    renderPlace(currentTrip);
+
+    categoryInput.value = "";
+    placeNameInput.value = "";
+    placeMemoInput.value = "";
+});
+
+if (mode === "new") {
+    renderTripForm();
+} else if (mode === "edit") {
+    renderTripForm(currentTrip) 
+} else {
+    const titles = document.querySelectorAll(".info-title");
+    titles.forEach((title) => {
+    title.textContent = currentTrip.title;
+    });
+    const detailImage = document.querySelector(".detail-hero__image");
+    detailImage.src = currentTrip.mainImage;
+    detailImage.alt = currentTrip.title;
+    
+    renderDetail(currentTrip);
+    renderPhotos(currentTrip);
+    renderSchedule(currentTrip);
+    renderPlace(currentTrip);
+}
