@@ -18,7 +18,7 @@
       rel="stylesheet">    
     <script src="./js/data.js" defer></script>
     <script src="./js/trips.js" defer></script>
-
+    <script src="./js/modal.js" defer></script>
     <title>Journey Album</title>
   </head>
   <body>
@@ -29,7 +29,7 @@
                 <ul class="nav__list">
                   <li><a href="./index.html">TOP</a></li>
                   <li><a href="./trips.html">記録</a></li>
-                  <li><a href="./details.html">ログイン</a></li>
+                  <li><button class="login-button" type="button">ログイン</button> </li>
                 </ul>
             </nav>
         </div>
@@ -41,5 +41,19 @@
             <div class="trip-cards"></div>
         </div>
     </section>
+    <!-- ログインモーダル -->
+    <div class="login-modal" aria-hidden="true">
+      <div class="login-modal__overlay"></div>
+      
+      <div class="login-modal__content" role="dialog" aria-modal="true">
+        <button class="login-modal__close" type="button">×</button>
+        <h2>ログイン</h2>
+        <form class="login-form">
+          <input type="email" placeholder="メールアドレス">
+          <input type="password" placeholder="パスワード">
+          <button type="submit">ログイン</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

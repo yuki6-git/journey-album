@@ -75,6 +75,52 @@ ul {
   color: #333;
 }
 
+.login-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.login-modal[aria-hidden=true] {
+  display: none;
+}
+
+.login-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+.login-modal__content {
+  position: relative;
+  z-index: 10;
+  width: min(90%, 600px);
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+}
+.login-modal__content .login-modal__close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+.login-modal__content .login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.login-modal__content .login-form input {
+  padding: 5px 8px;
+}
+.login-modal__content .login-form button {
+  display: inline-block;
+  width: 100px;
+  justify-content: center;
+}
+
 .trip-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -105,12 +151,16 @@ ul {
   min-width: 0;
   align-items: flex-start;
 }
+.trip-card .trip-card__content .trip-card__actions {
+  gap: 8px;
+  display: flex;
+}
 .trip-card .trip-card__content .trip-card__date {
   display: flex;
   gap: 8px;
   align-items: center;
 }
-.trip-card .trip-card__content a {
+.trip-card .trip-card__content .show-detail {
   display: inline-block;
   width: -moz-fit-content;
   width: fit-content;
