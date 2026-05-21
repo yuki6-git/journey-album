@@ -2,6 +2,10 @@ const params = new URLSearchParams(window.location.search);
 const tripId = Number(params.get("id"));
 console.log(tripId);
 const mode = params.get("mode");
+const savedTrips =  localStorage.getItem("trips");
+let trips = savedTrips
+    ? JSON.parse(savedTrips)
+    : [];
 const currentTrip = trips.find((trip) => {
       return trip.id === tripId;
     });  
@@ -18,43 +22,12 @@ tabs.forEach((tab) => {
             panel.setAttribute("aria-hidden", "true");
         });
         
-        
         tab.setAttribute("aria-selected", "true");
         const panelId = tab.getAttribute("aria-controls");
         const targetPanel = document.getElementById(panelId);
         targetPanel.setAttribute("aria-hidden", "false");
     });
 });   
-
-//基本情報の内容の表示//
-const detailInfoContent = document.querySelector(".detail-info__content");
-function renderDetail(currentTrip) {
-  detailInfoContent.textContent = "";
-
-  const date = document.createElement("p");
-  date.classList.add("detail-info__date");
-
-  const startTime = document.createElement("time");
-  startTime.dateTime = currentTrip.startDate;
-  startTime.textContent = currentTrip.startDate;
-
-  const endTime = document.createElement("time");
-  endTime.dateTime = currentTrip.endDate;
-  endTime.textContent = currentTrip.endDate;
-  date.append( startTime, " ~ ", endTime);
-
-  const destination = document.createElement("p");
-  destination.textContent = `旅行先：${currentTrip.destination}`;
-
-  const memo = document.createElement("p");
-  memo.textContent = `一言メモ：${currentTrip.text}`;
-
-  detailInfoContent.append(
-    date,
-    destination,
-    memo
-  );
-}
 
 //新しい旅行記録の追加//
 function renderTripForm(trip = null) {
@@ -151,31 +124,20 @@ function renderTripForm(trip = null) {
     memoLabel.htmlFor = "memo";
     memoLabel.textContent = "一言メモ";
 
-    const memoInput =
-    document.createElement("textarea");
+    const memoInput = document.createElement("textarea");
     memoInput.id = "memo";
     memoInput.placeholder ="一言メモ";
     memoInput.value = trip ? trip.text : "";
 
-    const submitButton =document.createElement("button");
+    const submitButton = document.createElement("button");
     submitButton.type = "submit";
     submitButton.textContent ="保存する";
 
-    titleField.append(
-        titleLabel, titleInput
-    );
-    startDateField.append(
-        startDateLabel, startDateInput
-    );
-    endDateField.append(
-        endDateLabel, endDateInput
-    );
-    destinationField.append(
-        destinationLabel, destinationInput
-    );
-    memoField.append(
-        memoLabel, memoInput
-    );
+    titleField.append(titleLabel, titleInput);
+    startDateField.append(startDateLabel, startDateInput);
+    endDateField.append(endDateLabel, endDateInput);
+    destinationField.append(destinationLabel, destinationInput);
+    memoField.append(memoLabel, memoInput);
 
     form.append(
         mainImageField,
@@ -186,6 +148,7 @@ function renderTripForm(trip = null) {
         memoField,
         submitButton
     );
+    
     detailInfoContent.append(form);
 
     form.addEventListener("submit", (e) => {
@@ -253,9 +216,39 @@ function renderTripForm(trip = null) {
             saveTrip(trip.mainImage);
         }
     });
-}    
+}
 
-//写真の追加//
+//基本情報の内容の表示//
+const detailInfoContent = document.querySelector(".detail-info__content");
+function renderDetail(currentTrip) {
+  detailInfoContent.textContent = "";
+
+  const date = document.createElement("p");
+  date.classList.add("detail-info__date");
+
+  const startTime = document.createElement("time");
+  startTime.dateTime = currentTrip.startDate;
+  startTime.textContent = currentTrip.startDate;
+
+  const endTime = document.createElement("time");
+  endTime.dateTime = currentTrip.endDate;
+  endTime.textContent = currentTrip.endDate;
+  date.append( startTime, " ~ ", endTime);
+
+  const destination = document.createElement("p");
+  destination.textContent = `旅行先：${currentTrip.destination}`;
+
+  const memo = document.createElement("p");
+  memo.textContent = `一言メモ：${currentTrip.text}`;
+
+  detailInfoContent.append(
+    date,
+    destination,
+    memo
+  );
+}
+
+//写真の表示//
 const photoInput = document.querySelector( ".photos__input");
 const addPhotoButton = document.querySelector(".photos__add-button");
 const photoGallery = document.querySelector(".photos__gallery");
@@ -277,7 +270,7 @@ function renderPhotos(trip) {
     photoGallery.append(img);
   });
 }
-//写真の表示//
+//写真の追加//
 photoInput.addEventListener("change", () => {
     const files = Array.from(photoInput.files);
     files.forEach((file) => {
@@ -436,6 +429,7 @@ function renderPlace(trip) {
             const deleteButton = document.createElement("button")
             deleteButton.type = "button";
             deleteButton.textContent = "削除"
+            
             deleteButton.addEventListener("click", () => {
                 if (!confirm("この場所を削除しますか？")) {
                     return;
@@ -457,7 +451,6 @@ function renderPlace(trip) {
         placeContainer.append(placeGroup);
     });
 }
-
 
 //場所の新規登録//
 const categoryInput = document.querySelector(".place-category-input");
@@ -498,7 +491,7 @@ addPlaceButton.addEventListener("click", () => {
 if (mode === "new") {
     renderTripForm();
 } else if (mode === "edit") {
-    renderTripForm(currentTrip) 
+    renderTripForm(currentTrip);
 } else {
     const titles = document.querySelectorAll(".info-title");
     titles.forEach((title) => {

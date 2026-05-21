@@ -115,10 +115,15 @@ ul {
 .login-modal__content .login-form input {
   padding: 5px 8px;
 }
-.login-modal__content .login-form button {
+.login-modal__content .login-form .register-btn {
+  display: flex;
+  gap: 5px;
+}
+.login-modal__content .login-form .register-btn button {
   display: inline-block;
   width: 100px;
   justify-content: center;
+  font-size: 12px;
 }
 
 .trip-cards {
